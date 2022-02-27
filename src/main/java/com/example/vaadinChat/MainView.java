@@ -15,32 +15,31 @@ import com.vaadin.flow.shared.Registration;
 
 @Route("")
 @Push
-public class MainView extends VerticalLayout {
+public class MainView extends VerticalLayout { //Clasa main pentru aplicatia
     private final Storage storage;
     private Registration registration;
-
     private Grid<Storage.ChatMessage> grid;
     private VerticalLayout chat;
     private VerticalLayout login;
     private String user = "";
 
-    public MainView(Storage storage) {
+    public MainView(Storage storage) { //Apeleaza functiile pentru Logare si chat
         this.storage = storage;
 
         buildLogin();
         buildChat();
     }
 
-    private void buildLogin() {
+    private void buildLogin() { //Logam un user nou
         login = new VerticalLayout() {{
             TextField field = new TextField();
-            field.setPlaceholder("Your name");
+            field.setPlaceholder("Your name"); //User trebuie de intriduce numele say orice simbol/
             add(
                     field,
-                    new Button("Enter") {{
+                    new Button("Enter") {{  // Cand userul introduce parola noi ascundem login form si afisam chat
                         addClickListener(click -> {
-                            login.setVisible(false);
-                            chat.setVisible(true);
+                            login.setVisible(false);    //Ascundem Login form
+                            chat.setVisible(true);      //Afisam Chat
                             user = field.getValue();
                             storage.addRecordJoined(user);
                         });
@@ -51,7 +50,7 @@ public class MainView extends VerticalLayout {
         add(login);
     }
 
-    private void buildChat() {
+    private void buildChat() {  //Constuim chat
         chat = new VerticalLayout();
         add(chat);
         chat.setVisible(false);
@@ -63,7 +62,7 @@ public class MainView extends VerticalLayout {
 
         TextField field = new TextField();
 
-        chat.add(
+        chat.add(       //Pentru text
                 new H3("Chat"),
                 grid,
                 new HorizontalLayout() {{
@@ -74,7 +73,7 @@ public class MainView extends VerticalLayout {
                                     storage.addRecord(user, field.getValue());
                                     field.clear();
                                 });
-                                addClickShortcut(Key.ENTER);
+                                addClickShortcut(Key.ENTER); //Apasam ENTER si messajul este send
                             }}
                     );
                 }}
@@ -91,11 +90,11 @@ public class MainView extends VerticalLayout {
         }
     }
 
-    private String renderRow(Storage.ChatMessage message) {
+    private String renderRow(Storage.ChatMessage message) { //Afisam date in chat
         if (message.getName().isEmpty()) {
-            return Processor.process(String.format("_User **%s** joined the chat!_", message.getMessage()));
+            return Processor.process(String.format("_User **%s** joined the chat!_", message.getMessage())); //Afisam ca user a intarat in chat
         } else {
-            return Processor.process(String.format("**%s**: %s", message.getName(), message.getMessage()));
+            return Processor.process(String.format("**%s**: %s", message.getName(), message.getMessage())); //Afisam mesaj care o timis user
         }
     }
 

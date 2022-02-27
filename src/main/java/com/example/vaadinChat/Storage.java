@@ -21,23 +21,23 @@ public class Storage {
 
     @Getter
     @AllArgsConstructor
-    public static class ChatMessage {
+    public static class ChatMessage { //Atribuim variabilele
         private String name;
         private String message;
     }
 
-    public static class ChatEvent extends ComponentEvent<Div> {
+    public static class ChatEvent extends ComponentEvent<Div> { //Classa Chat Event
         public ChatEvent() {
             super(new Div(), false);
         }
     }
 
-    public void addRecord(String user, String message) {
-        messages.add(new ChatMessage(user, message));
+    public void addRecord(String user, String message) { // Pentru afisarea  user si message
+        messages.add(new ChatMessage(user, message)); // Afisam messajul
         eventBus.fireEvent(new ChatEvent());
     }
 
-    public void addRecordJoined(String user) {
+    public void addRecordJoined(String user) { // Afisam message ca user a intat in Chat
         messages.add(new ChatMessage("", user));
         eventBus.fireEvent(new ChatEvent());
     }
